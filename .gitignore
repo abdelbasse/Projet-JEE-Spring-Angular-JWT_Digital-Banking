@@ -32,3 +32,6 @@
 /e-banking-backend### VS Code ###
 /e-banking-backend.vscode/
 
+/trash-tmp/*
+/trash-tmp
+
