@@ -52,7 +52,7 @@ public class EBankingBackendApplication {
 				savingAccount.setStatus(AccountStatus.CREATED);
 				savingAccount.setCustomer(cust);
 				savingAccount.setInterestRate(5.5);
-				bankAccountRepo.save(currentAccount);
+				bankAccountRepo.save(savingAccount);
 			});
 
 			bankAccountRepo.findAll().forEach(acc->{
