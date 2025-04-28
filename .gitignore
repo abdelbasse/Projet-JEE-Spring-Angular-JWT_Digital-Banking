@@ -1,0 +1,34 @@
+/e-banking-backend/HELP.md
+/e-banking-backend/target/
+/e-banking-backend!.mvn/wrapper/maven-wrapper.jar
+/e-banking-backend!**/src/main/**/target/
+/e-banking-backend!**/src/test/**/target/
+
+/e-banking-backend### STS ###
+/e-banking-backend.apt_generated
+/e-banking-backend.classpath
+/e-banking-backend.factorypath
+/e-banking-backend.project
+/e-banking-backend.settings
+/e-banking-backend.springBeans
+/e-banking-backend.sts4-cache
+
+/e-banking-backend### IntelliJ IDEA ###
+/e-banking-backend.idea
+/e-banking-backend*.iws
+/e-banking-backend*.iml
+/e-banking-backend*.ipr
+
+/e-banking-backend### NetBeans ###
+/e-banking-backend/nbproject/private/
+/e-banking-backend/nbbuild/
+/e-banking-backend/dist/
+/e-banking-backend/nbdist/
+/e-banking-backend/.nb-gradle/
+/e-banking-backendbuild/
+/e-banking-backend!**/src/main/**/build/
+/e-banking-backend!**/src/test/**/build/
+
+/e-banking-backend### VS Code ###
+/e-banking-backend.vscode/
+
