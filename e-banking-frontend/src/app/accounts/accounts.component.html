@@ -33,15 +33,15 @@
             </div>
             <table class="table">
               <thead>
-                <th>ID</th><th>Date</th><th>Type</th><th>Amount</th>
+              <th>ID</th><th>Date</th><th>Type</th><th>Amount</th>
               </thead>
               <tbody>
-                <tr *ngFor="let op of accountDetails.accountOperationDTOS">
-                  <td>{{op.id}}</td>
-                  <td>{{op.operationDate | date : 'dd-MM-yyyy:HH-mm-ss'}}</td>
-                  <td>{{op.type}}</td>
-                  <td class="text-end">{{op.amount | number : '1.2-2'}}</td>
-                </tr>
+              <tr *ngFor="let op of accountDetails.accountOperationDTOS">
+                <td>{{op.id}}</td>
+                <td>{{op.operationDate | date : 'dd-MM-yyyy:HH-mm-ss'}}</td>
+                <td>{{op.type}}</td>
+                <td class="text-end">{{op.amount | number : '1.2-2'}}</td>
+              </tr>
               </tbody>
             </table>
             <ul class="nav nav-pills">
@@ -53,10 +53,10 @@
         </div>
       </div>
     </div>
-    <div class="col col-md-6">
-      <div class="card" *ngIf="accountObservable">
+    <div class="col col-md-6" >
+      <div class="card" *ngIf="accountObservable | async ">
         <div class="card-header">Operations</div>
-        <div class="card-body">
+        <div class="card-body" *ngIf="authService.roles.includes('ADMIN')">
 
           <form [formGroup]="operationFromGroup" (ngSubmit)="handleAccountOperation()" method="post">
             <div class="form-check form-check-inline">

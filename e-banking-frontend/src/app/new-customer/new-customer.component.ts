@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Customer} from "../model/customer.model";
-import {CustomerService} from "../services/customer.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CustomerService} from '../services/customer.service';
+import {Router} from '@angular/router';
+import {Customer} from '../model/customer.model';
 
 @Component({
   selector: 'app-new-customer',
+  standalone: false,
   templateUrl: './new-customer.component.html',
-  styleUrls: ['./new-customer.component.css']
+  styleUrl: './new-customer.component.css'
 })
-export class NewCustomerComponent implements OnInit {
+export class NewCustomerComponent implements OnInit{
   newCustomerFormGroup! : FormGroup;
   constructor(private fb : FormBuilder, private customerService:CustomerService, private router:Router) { }
 

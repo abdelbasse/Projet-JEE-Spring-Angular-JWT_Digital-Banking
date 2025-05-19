@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {AccountsService} from "../services/accounts.service";
-import {catchError, Observable, throwError} from "rxjs";
-import {AccountDetails} from "../model/account.model";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {catchError, Observable, throwError} from 'rxjs';
+import {AccountDetails} from '../model/account.model';
+import {AccountsService} from '../services/accounts.service';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-accounts',
+  standalone: false,
   templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.css']
+  styleUrl: './accounts.component.css'
 })
 export class AccountsComponent implements OnInit {
   accountFormGroup! : FormGroup;
@@ -17,7 +19,7 @@ export class AccountsComponent implements OnInit {
   operationFromGroup! : FormGroup;
   errorMessage! :string ;
 
-  constructor(private fb : FormBuilder, private accountService : AccountsService) { }
+  constructor(private fb : FormBuilder, private accountService : AccountsService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.accountFormGroup=this.fb.group({
@@ -54,7 +56,7 @@ export class AccountsComponent implements OnInit {
     if(operationType=='DEBIT'){
       this.accountService.debit(accountId, amount,description).subscribe({
         next : (data)=>{
-          alert("Success Credit");
+          alert("Credit Successful");
           this.operationFromGroup.reset();
           this.handleSearchAccount();
         },
@@ -65,7 +67,7 @@ export class AccountsComponent implements OnInit {
     } else if(operationType=='CREDIT'){
       this.accountService.credit(accountId, amount,description).subscribe({
         next : (data)=>{
-          alert("Success Debit");
+          alert("Debit Successful");
           this.operationFromGroup.reset();
           this.handleSearchAccount();
         },
@@ -77,7 +79,7 @@ export class AccountsComponent implements OnInit {
     else if(operationType=='TRANSFER'){
       this.accountService.transfer(accountId,accountDestination, amount,description).subscribe({
         next : (data)=>{
-          alert("Success Transfer");
+          alert("Transfer Successful");
           this.operationFromGroup.reset();
           this.handleSearchAccount();
         },

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Customer} from "../model/customer.model";
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
+import {Customer} from '../model/customer.model';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
+
   constructor(private http:HttpClient) { }
 
   public getCustomers():Observable<Array<Customer>>{
@@ -17,6 +18,7 @@ export class CustomerService {
     return this.http.get<Array<Customer>>(environment.backendHost+"/customers/search?keyword="+keyword)
   }
   public saveCustomer(customer: Customer):Observable<Customer>{
+    customer.id = 0
     return this.http.post<Customer>(environment.backendHost+"/customers",customer);
   }
   public deleteCustomer(id: number){
