@@ -16,35 +16,37 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/auth")
+//@RestController
+//@RequestMapping("/auth")
 public class SecurityController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    private JwtEncoder jwtEncoder;
-
-    @GetMapping("/profile")
-    Authentication authentication(Authentication authentication) {
-        return authentication;
-    }
-
-    @PostMapping("login")
-    public Map<String, String> login(String username, String password) {
-        Authentication authentication=  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        String scope = authentication.getAuthorities().stream().map(a->a.getAuthority()).collect(Collectors.joining(" "));
-        Instant instant = Instant.now();
-        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
-                .issuedAt(instant)
-                .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
-                .subject(username)
-                .claim("scope",scope)
-                .build();
-        JwtEncoderParameters jwtEncoderParameters =
-                JwtEncoderParameters.from(
-                        JwsHeader.with(MacAlgorithm.HS512).build(),
-                        jwtClaimsSet
-                );
-        String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
-        return Map.of("access-token", jwt);
-    }
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+//
+//    @Autowired
+//    private JwtEncoder jwtEncoder;
+//
+//    @GetMapping("/profile")
+//    Authentication authentication(Authentication authentication) {
+//        return authentication;
+//    }
+//
+//    @PostMapping("login")
+//    public Map<String, String> login(String username, String password) {
+//        Authentication authentication=  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//        String scope = authentication.getAuthorities().stream().map(a->a.getAuthority()).collect(Collectors.joining(" "));
+//        Instant instant = Instant.now();
+//        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
+//                .issuedAt(instant)
+//                .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
+//                .subject(username)
+//                .claim("scope",scope)
+//                .build();
+//        JwtEncoderParameters jwtEncoderParameters =
+//                JwtEncoderParameters.from(
+//                        JwsHeader.with(MacAlgorithm.HS512).build(),
+//                        jwtClaimsSet
+//                );
+//        String jwt = jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
+//        return Map.of("access-token", jwt);
+//    }
 }
