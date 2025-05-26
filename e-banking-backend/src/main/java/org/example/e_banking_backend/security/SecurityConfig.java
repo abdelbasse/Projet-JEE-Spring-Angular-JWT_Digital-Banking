@@ -37,73 +37,72 @@ import java.util.List;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-//    @Value("${jwt.secret}")
-//    private String secretKey;
-//
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/swagger-ui.html",
-                            "/swagger-ui/**",
-                            "/v3/api-docs/**",
-                            "/webjars/**",
-                            "/swagger-resources/**"
-                    ).permitAll()
-                    .anyRequest().permitAll() // Allow all other requests (or use .authenticated() if you want them secured)
-            )
-            .csrf(csrf -> csrf.disable());
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-    return http.build();
-}
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity
-//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .csrf(csrf -> csrf.disable())
-//                .cors(Customizer.withDefaults())
-//                .authorizeHttpRequests(ar -> ar.anyRequest().permitAll()) // Allow all routes
-//                .build(); // Removed .oauth2ResourceServer() to disable JWT requirement
-//    }
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        PasswordEncoder passwordEncoder = passwordEncoder();
+        return new InMemoryUserDetailsManager(
+                User.withUsername("user").password(passwordEncoder().encode("12345")).authorities("USER").build(),
+                User.withUsername("admin").password(passwordEncoder().encode("12345")).authorities("USER","ADMIN").build()
+        );
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 ////    @Bean
 ////    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 ////        return httpSecurity
-////                .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-////                .csrf(csrf->csrf.disable())
-////                .cors(Customizer.withDefaults())
-////                .authorizeHttpRequests(ar->ar.requestMatchers("/auth/login/**").permitAll())
-////                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
-////                .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
+////                .authorizeHttpRequests(auth -> auth
+////                        .requestMatchers(
+////                                "/swagger-ui.html",
+////                                "/swagger-ui/**",
+////                                "/v3/api-docs/**",
+////                                "/webjars/**",
+////                                "/swagger-resources/**"
+////                        ).permitAll()
+////                        .anyRequest().permitAll() // Allow all other requests
+////                )
+////                .csrf(csrf -> csrf.disable())
 ////                .build();
 ////    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf->csrf.disable())
+//                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/auth/login/**").permitAll())
+                .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
+//                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
 //
-//    @Bean
-//    JwtEncoder jwtEncoder() {
-//        //String secretKey="9faa372517ac1d389758d3750fc07acf00f542277f26fec1ce4593e93f64e338";
-//        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey.getBytes()));
-//    }
-//
-//    @Bean
-//    JwtDecoder jwtDecoder() {
-//        //String secretKey="9faa372517ac1d389758d3750fc07acf00f542277f26fec1ce4593e93f64e338";
-//        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "RSA");
-//        return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
-//
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-//        return new ProviderManager(daoAuthenticationProvider);
-//    }
+    @Bean
+    JwtEncoder jwtEncoder() {
+        //String secretKey="9faa372517ac1d389758d3750fc07acf00f542277f26fec1ce4593e93f64e338";
+        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey.getBytes()));
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder() {
+        //String secretKey="9faa372517ac1d389758d3750fc07acf00f542277f26fec1ce4593e93f64e338";
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "RSA");
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        return new ProviderManager(daoAuthenticationProvider);
+    }
 //
 //    @Bean
 //    CorsConfigurationSource corsConfigurationSource(){
