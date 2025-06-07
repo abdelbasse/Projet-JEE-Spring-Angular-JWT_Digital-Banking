@@ -26,12 +26,12 @@
         </li>
       </ul>
 
-       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          [username]
+       <ul class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="authService.isAuthenticated == true">
+        <li class="nav-item nav-link" style="color: white;">
+          {{this.authService.username}}
         </li>
         <li class="nav-item">
-          <a class="nav-link" (click)="handleLogout()">Logout</a>
+          <a class="nav-link btn btn-success" (click)="handleLogout()">Logout</a>
         </li>
       </ul>
     </div>
