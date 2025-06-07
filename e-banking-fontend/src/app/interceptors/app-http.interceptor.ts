@@ -14,7 +14,9 @@ export class AppHttpInterceptor implements HttpInterceptor {
   constructor(private authService : AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let req = request.clone().headers.set('Authorization', `Bearer ${this.authService.accessToken}`);
-    return next.handle(request);
+    let req = request.clone({
+      headers: request.headers.set('Authorization', `Bearer ${this.authService.accessToken}`)
+    });
+    return next.handle(req);
   }
 }
