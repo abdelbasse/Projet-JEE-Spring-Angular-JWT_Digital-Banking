@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm! : FormGroup;
+  errorMessage: string | null = null; 
   constructor(private fb : FormBuilder,private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -27,11 +28,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(username,pwd).subscribe({
       next : data=>{
         this.authService.loadProfile(data);
-        //this.newCustomerFormGroup.reset();
         this.router.navigateByUrl("/admin");
       },
       error : err => {
-        console.log(err);
+        // Set a user-friendly error message
+        this.errorMessage = "Invalid username or password.";
       }
     });
   }
