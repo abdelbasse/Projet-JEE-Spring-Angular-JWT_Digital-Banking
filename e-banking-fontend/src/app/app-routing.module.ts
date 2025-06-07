@@ -9,11 +9,13 @@ import { AdminTemplateComponent } from './admin-template/admin-template.componen
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { AuthorizationGuard } from './guards/authorization.guard';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import { DashbaordComponent } from './dashbaord/dashbaord.component';
 
 const routes: Routes = [
   { path :"login", component : LoginComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path:"admin", component: AdminTemplateComponent , canActivate : [AuthenticationGuard] ,children : [
+    { path :"", component : DashbaordComponent},
     { path :"customers", component : CustomersComponent},
     { path :"accounts", component : AccountsComponent},
     { path :"new-customer", component : NewCustomerComponent , canActivate : [AuthorizationGuard] , data : {role:"ADMIN"}},

@@ -1,54 +1,135 @@
-<div class="container mt-2">
-  <ng-container *ngIf="customers | async as listCustomers; else failureOrLading">
-    <div class="card">
-      <div class="card-header">Customers</div>
-      <div class="card-body">
-        <div *ngIf="searchFormGroup">
-          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
-            <div class="input-group">
-              <label class="input-group-text">Keyword :</label>
-              <input type="text" formControlName="keyword" class="form-control">
-              <button class="btn btn-info">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<body>
+    <div class="container mt-2">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-users"></i>
+                Customer Management
+            </h1>
+            <p>Manage and search through your customer database</p>
         </div>
-        <table class="table">
-          <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Email</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let c of customers | async">
-            <td>{{c.id}}</td>
-            <td>{{c.name}}</td>
-            <td>{{c.email}}</td>
-            <td>
-              <button (click)="handleDeleteCustomer(c)" class="btn btn-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-            <td>
-              <button (click)="handleCustomerAccounts(c)" class="btn btn-success">
-                Accounts
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+
+        <!-- Stats Row -->
+        <div class="row stats-row">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon text-primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number text-primary">1,234</div>
+                    <div class="stat-label">Total Customers</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon text-success">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-number text-success">892</div>
+                    <div class="stat-label">Active Customers</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon text-info">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-number text-info">45</div>
+                    <div class="stat-label">New This Month</div>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="customers | async as listCustomers; else failureOrLading">
+            <div class="customers-card card">
+                <div class="card-header">
+                    <i class="fas fa-list"></i>
+                    Customer List
+                </div>
+                <div class="card-body p-0">
+                    <!-- Search Section -->
+                    <div class="search-section">
+                        <div *ngIf="searchFormGroup" class="search-form">
+                            <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search me-2"></i>
+                                        Search Keyword
+                                    </span>
+                                    <input type="text" formControlName="keyword" class="form-control" placeholder="Enter customer name or email...">
+                                    <button class="btn btn-search" type="submit">
+                                        <i class="bi bi-search me-2"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="table-container">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                                        <th><i class="fas fa-user me-2"></i>Name</th>
+                                        <th><i class="fas fa-envelope me-2"></i>Email</th>
+                                        <th><i class="fas fa-trash-alt me-2"></i>Delete</th>
+                                        <th><i class="fas fa-credit-card me-2"></i>Accounts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let c of customers | async">
+                                        <td class="fw-bold text-primary">{{c.id}}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-avatar me-2">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                {{c.name}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-envelope text-muted me-2"></i>
+                                            {{c.email}}
+                                        </td>
+                                        <td>
+                                            <button (click)="handleDeleteCustomer(c)" class="btn btn-danger btn-action">
+                                                <i class="bi bi-trash me-1"></i>
+                                                Delete
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button (click)="handleCustomerAccounts(c)" class="btn btn-success btn-action">
+                                                <i class="fas fa-credit-card me-1"></i>
+                                                Accounts
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-template #failureOrLading>
+            <ng-container *ngIf="errorMessage; else loading">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Error:</strong> {{errorMessage}}
+                </div>
+            </ng-container>
+            <ng-template #loading>
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <h5>Loading customers...</h5>
+                    <p class="text-muted">Please wait while we fetch the customer data.</p>
+                </div>
+            </ng-template>
+        </ng-template>
     </div>
-  </ng-container>
-  <ng-template #failureOrLading>
-    <ng-container *ngIf="errorMessage; else loading">
-      <div class="text-danger">
-        {{errorMessage}}
-      </div>
-    </ng-container>
-    <ng-template #loading>
-      Loading .....
-    </ng-template>
-  </ng-template>
-</div>
+</body>

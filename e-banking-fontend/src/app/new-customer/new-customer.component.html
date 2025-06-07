@@ -1,30 +1,112 @@
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">New Customer</div>
-    <div class="card-body">
-      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
-        <div class="mb-3">
-          <label class="form-label">Name:</label>
-          <input type="text" formControlName="name" class="form-control">
-          <span class="text-danger"
-                *ngIf="newCustomerFormGroup.controls['name'].touched
-                && newCustomerFormGroup.controls['name'].errors
-                && newCustomerFormGroup.controls['name'].errors!['required']">
-            Name is Required
-          </span>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-user-plus"></i>
+                Add New Customer
+            </h1>
+            <p>Create a new customer profile in the system</p>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Email:</label>
-          <input type="text" formControlName="email" class="form-control">
-          <span class="text-danger"
-                *ngIf="newCustomerFormGroup.controls['email'].touched
-                && newCustomerFormGroup.controls['email'].errors
-                && newCustomerFormGroup.controls['email'].errors!['email']">
-            Email is not valid
-          </span>
+
+        <div class="customer-form-card card">
+            <div class="card-header">
+                <i class="fas fa-user-plus"></i>
+                New Customer Registration
+            </div>
+            <div class="card-body">
+                <!-- Progress Bar -->
+                <div class="form-progress">
+                    <div class="form-progress-bar"></div>
+                </div>
+
+                <!-- Info Alert -->
+                <div class="form-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Important:</strong> Please fill in all required fields to create a new customer account.
+                </div>
+
+                <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <h5 class="form-section-title">
+                            <i class="fas fa-user"></i>
+                            Personal Information
+                        </h5>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-signature"></i>
+                                Full Name: <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <input type="text" 
+                                       formControlName="name" 
+                                       class="form-control" 
+                                       placeholder="Enter customer's full name">
+                                <i class="fas fa-user input-icon"></i>
+                            </div>
+                            <span class="text-danger"
+                                  *ngIf="newCustomerFormGroup.controls['name'].touched
+                                  && newCustomerFormGroup.controls['name'].errors
+                                  && newCustomerFormGroup.controls['name'].errors!['required']">
+                                <i class="fas fa-exclamation-circle"></i>
+                                Customer name is required and cannot be empty
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address: <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <input type="email" 
+                                       formControlName="email" 
+                                       class="form-control" 
+                                       placeholder="Enter valid email address">
+                                <i class="fas fa-at input-icon"></i>
+                            </div>
+                            <span class="text-danger"
+                                  *ngIf="newCustomerFormGroup.controls['email'].touched
+                                  && newCustomerFormGroup.controls['email'].errors
+                                  && newCustomerFormGroup.controls['email'].errors!['email']">
+                                <i class="fas fa-exclamation-circle"></i>
+                                Please enter a valid email address (e.g., customer@example.com)
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-section">
+                        <h5 class="form-section-title">
+                            <i class="fas fa-check-circle"></i>
+                            Complete Registration
+                        </h5>
+
+                        <button type="button" class="btn btn-cancel">
+                            <i class="fas fa-times me-2"></i>
+                            Cancel
+                        </button>
+
+                        <button type="submit" 
+                                [disabled]="!newCustomerFormGroup.valid" 
+                                class="btn btn-save">
+                            <i class="fas fa-save me-2"></i>
+                            Save Customer
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-info">Save</button>
-      </form>
+
+        <!-- Additional Help -->
+        <div class="text-center mt-4">
+            <small class="text-muted">
+                <i class="fas fa-question-circle me-1"></i>
+                Need help? Contact support or check the user manual.
+            </small>
+        </div>
     </div>
-  </div>
-</div>
+</body>
