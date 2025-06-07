@@ -6,11 +6,12 @@ import {NewCustomerComponent} from "./new-customer/new-customer.component";
 import {CustomerAccountsComponent} from "./customer-accounts/customer-accounts.component";
 import { LoginComponent } from './login/login.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
+import { AuthenticationGuard } from './guards/authentication.guard';
 
 const routes: Routes = [
   { path :"login", component : LoginComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path:"admin", component: AdminTemplateComponent ,children : [
+  { path:"admin", component: AdminTemplateComponent , canActivate : [AuthenticationGuard] ,children : [
     { path :"customers", component : CustomersComponent},
     { path :"accounts", component : AccountsComponent},
     { path :"new-customer", component : NewCustomerComponent},

@@ -32,4 +32,12 @@ export class AuthService {
     this.roles = decodedJwt.scope
     window.localStorage.setItem("jwt-token",this.accessToken)
   }
+
+  logout() {
+    this.isAuthenticated = false;
+    this.roles = undefined;
+    this.username = undefined;
+    this.accessToken = undefined;
+    window.localStorage.removeItem("jwt-token");
+  }
 }
