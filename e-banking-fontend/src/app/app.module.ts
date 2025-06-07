@@ -12,6 +12,7 @@ import { NewCustomerComponent } from './new-customer/new-customer.component';
 import { CustomerAccountsComponent } from './customer-accounts/customer-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
+import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { AdminTemplateComponent } from './admin-template/admin-template.componen
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    AppHttpInterceptor
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
