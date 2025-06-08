@@ -1,1 +1,168 @@
-<p>dashbaord works!</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="container-fluid">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>
+      <i class="fas fa-chart-line"></i>
+      E-Banking Dashboard
+    </h1>
+    <p>Overview of your banking system statistics and performance</p>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    Loading dashboard data...
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!isLoading">
+    <!-- Stats Row -->
+    <div class="row mb-4">
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="stat-card">
+          <div class="stat-icon text-primary">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-number text-primary">{{ dashboardData.totalCustomers?.toLocaleString() || '0' }}</div>
+          <div class="stat-label">Total Customers</div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="stat-card">
+          <div class="stat-icon text-success">
+            <i class="fas fa-university"></i>
+          </div>
+          <div class="stat-number text-success">{{ dashboardData.totalAccounts?.toLocaleString() || '0' }}</div>
+          <div class="stat-label">Bank Accounts</div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="stat-card">
+          <div class="stat-icon text-info">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <div class="stat-number text-info">{{ dashboardData.totalTransactions?.toLocaleString() || '0' }}</div>
+          <div class="stat-label">Transactions</div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="stat-card">
+          <div class="stat-icon text-warning">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="stat-number text-warning">${{ (dashboardData.totalBalance / 1000000)?.toFixed(1) || '0' }}M</div>
+          <div class="stat-label">Total Balance</div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="stat-card">
+          <div class="stat-icon text-danger">
+            <i class="fas fa-piggy-bank"></i>
+          </div>
+          <div class="stat-number text-danger">{{ dashboardData.savingsAccounts?.toLocaleString() || '0' }}</div>
+          <div class="stat-label">Savings Accounts</div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+        <div class="stat-card">
+          <div class="stat-icon text-secondary">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="stat-number text-secondary">{{ dashboardData.currentAccounts?.toLocaleString() || '0' }}</div>
+          <div class="stat-label">Current Accounts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <div class="chart-card">
+          <div class="chart-header">
+            <i class="fas fa-chart-pie text-primary"></i>
+            Account Types Distribution
+          </div>
+          <div class="chart-container">
+            <canvas id="accountTypesChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <div class="chart-card">
+          <div class="chart-header">
+            <i class="fas fa-chart-bar text-success"></i>
+            Monthly Transactions Volume
+          </div>
+          <div class="chart-container">
+            <canvas id="transactionsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-8 mb-4">
+        <div class="chart-card">
+          <div class="chart-header">
+            <i class="fas fa-chart-area text-info"></i>
+            Account Balance Trends Over Time
+          </div>
+          <div class="chart-container">
+            <canvas id="balanceTrendsChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="recent-transactions">
+          <div class="chart-header">
+            <i class="fas fa-history text-warning"></i>
+            Recent Transactions
+          </div>
+          <div id="recentTransactionsList">
+            <div *ngFor="let transaction of dashboardData.recentTransactions" class="transaction-item">
+              <div>
+                <div class="d-flex align-items-center mb-1">
+                  <i class="fas {{ getTransactionIcon(transaction.type) }} me-2"></i>
+                  <strong>{{ transaction.description }}</strong>
+                </div>
+                <small class="text-muted">{{ transaction.date }} • {{ transaction.account }}</small>
+              </div>
+              <div class="text-end">
+                <span class="transaction-type {{ transaction.type.toLowerCase() }}">{{ transaction.type }}</span>
+                <div class="fw-bold {{ getAmountClass(transaction.type) }}">
+                  {{ getAmountPrefix(transaction.type) }}${{ transaction.amount.toLocaleString() }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <div class="chart-card">
+          <div class="chart-header">
+            <i class="fas fa-chart-line text-success"></i>
+            Customer Growth Trend
+          </div>
+          <div class="chart-container">
+            <canvas id="customerGrowthChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <div class="chart-card">
+          <div class="chart-header">
+            <i class="fas fa-chart-donut text-danger"></i>
+            Transaction Types Distribution
+          </div>
+          <div class="chart-container">
+            <canvas id="transactionTypesChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

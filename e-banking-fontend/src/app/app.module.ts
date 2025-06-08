@@ -21,6 +21,7 @@ import { NewAccountComponent } from './accounts/new-account/new-account.componen
 import { ListUsersComponent } from './users/list-users/list-users.component';
 import { NewUserComponent } from './users/new-user/new-user.component';
 import { ChangePassComponent } from './users/change-pass/change-pass.component';
+  
 
 @NgModule({
   declarations: [

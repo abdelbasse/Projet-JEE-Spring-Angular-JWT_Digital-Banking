@@ -3,7 +3,7 @@
 
 GET http://localhost:8085/accounts/902eb9cb-49e1-42ee-b4d3-658394dafa35/pageOperations
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4MjM3NSwiaWF0IjoxNzQ5MzgxNzc1LCJzY29wZSI6IkFETUlOIn0.MPvH-WFTX6_cSqqMvoo8whB9O8nZ6glfEwizLAiwpltIrKudggdYabMtLVDBQIz9gOhmGog1dTkoVnOQt4BBJw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
 
 ###
 
@@ -14,7 +14,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4N
 
 POST http://localhost:8085/api/users/newuser/reset-password
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Nzk5NiwiaWF0IjoxNzQ5Mzg3Mzk2LCJzY29wZSI6IkFETUlOIFVTRVIifQ.BYsSag7zb8Nr-59XfElaiyP4HazehoxygSC0pZlaQ9UADVvFFn4Aq0cWevpVM1wvy_FfK0Ez0Wi0mGAgCfYV3Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
 
 {
   "newPassword": "123456"
@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4N
 
 POST http://localhost:8085/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Nzk5NiwiaWF0IjoxNzQ5Mzg3Mzk2LCJzY29wZSI6IkFETUlOIFVTRVIifQ.BYsSag7zb8Nr-59XfElaiyP4HazehoxygSC0pZlaQ9UADVvFFn4Aq0cWevpVM1wvy_FfK0Ez0Wi0mGAgCfYV3Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
 
 {
   "username": "newuser",
@@ -37,7 +37,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4N
 ###
 
 GET http://localhost:8085/api/users
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Nzk5NiwiaWF0IjoxNzQ5Mzg3Mzk2LCJzY29wZSI6IkFETUlOIFVTRVIifQ.BYsSag7zb8Nr-59XfElaiyP4HazehoxygSC0pZlaQ9UADVvFFn4Aq0cWevpVM1wvy_FfK0Ez0Wi0mGAgCfYV3Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
 
 ###
 
@@ -45,3 +45,19 @@ POST http://localhost:8085/auth/login
 Content-Type: application/x-www-form-urlencoded
 
 username=admin&password=12345
+
+###
+GET http://localhost:8085/api/dashboard/stats
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
+
+###
+GET http://localhost:8085/api/dashboard/recent-transactions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
+
+###
+
+GET http://localhost:8085/api/dashboard/charts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTQwNTQyNCwiaWF0IjoxNzQ5NDA0ODI0LCJzY29wZSI6IkFETUlOIFVTRVIifQ.j-tOW-Ka7MH1qiSPLOlGwpb3LxWDOtCej-hbwqkxj8Qq4ojnHjoPExHEskb8xuKjTI5cDvn1e5pEp-1ZVeJcgw
