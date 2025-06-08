@@ -9,11 +9,11 @@ import org.example.e_banking_backend.enums.AccountStatus;
 import java.util.Date;
 import java.util.List;
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TYPE",length = 4)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE", length = 4)
 public class BankAccount {
     @Id
     private String id;

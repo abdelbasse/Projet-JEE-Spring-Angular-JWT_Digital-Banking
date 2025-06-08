@@ -7,7 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CustomersComponent } from './customers/customers.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NewCustomerComponent } from './new-customer/new-customer.component';
 import { CustomerAccountsComponent } from './customer-accounts/customer-accounts.component';
 import { LoginComponent } from './login/login.component';
@@ -15,6 +15,9 @@ import { AdminTemplateComponent } from './admin-template/admin-template.componen
 import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { DashbaordComponent } from './dashbaord/dashbaord.component';
+import { AllAccountsComponent } from './accounts/all-accounts/all-accounts.component';
+import { SimpleTemplateComponent } from './simple-template/simple-template.component';
+import { NewAccountComponent } from './accounts/new-account/new-account.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +30,17 @@ import { DashbaordComponent } from './dashbaord/dashbaord.component';
     LoginComponent,
     AdminTemplateComponent,
     NotAuthorizedComponent,
-    DashbaordComponent
+    DashbaordComponent,
+    AllAccountsComponent,
+    SimpleTemplateComponent,
+    NewAccountComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [
     {provide : HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true}

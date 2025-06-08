@@ -1,0 +1,172 @@
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>
+            <i class="fas fa-plus-circle"></i>
+            Create New Bank Account
+        </h1>
+        <p>Set up a new banking account for your customers</p>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="main-card">
+        <div class="card-header">
+            <i class="fas fa-user-plus"></i>
+            Account Creation Form
+        </div>
+        
+        <div class="form-container">
+            <!-- Account Type Selection -->
+            <div class="form-section">
+                <h4 class="section-title">
+                    <i class="fas fa-credit-card"></i>
+                    Select Account Type
+                </h4>
+                
+                <div class="account-type-cards">
+                    <div class="account-type-card" 
+                         [class.selected]="accountType === 'current'"
+                         (click)="selectAccountType('current')">
+                        <i class="fas fa-credit-card account-type-icon type-current"></i>
+                        <h5 class="account-type-title">Current Account</h5>
+                        <p class="account-type-description">
+                            Perfect for daily transactions and business operations
+                        </p>
+                        <ul class="account-type-features">
+                            <li><i class="fas fa-check"></i> Overdraft facility available</li>
+                            <li><i class="fas fa-check"></i> Unlimited transactions</li>
+                            <li><i class="fas fa-check"></i> Debit card included</li>
+                            <li><i class="fas fa-check"></i> Business transactions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="account-type-card" 
+                         [class.selected]="accountType === 'saving'"
+                         (click)="selectAccountType('saving')">
+                        <i class="fas fa-piggy-bank account-type-icon type-saving"></i>
+                        <h5 class="account-type-title">Saving Account</h5>
+                        <p class="account-type-description">
+                            Ideal for saving money and earning interest
+                        </p>
+                        <ul class="account-type-features">
+                            <li><i class="fas fa-check"></i> Interest earning</li>
+                            <li><i class="fas fa-check"></i> Secure savings</li>
+                            <li><i class="fas fa-check"></i> Monthly statements</li>
+                            <li><i class="fas fa-check"></i> Goal-based savings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Selection -->
+            <div class="form-section">
+                <h4 class="section-title">
+                    <i class="fas fa-user"></i>
+                    Select Customer
+                </h4>
+                
+                <div class="mb-3">
+                    <label for="customerSelect" class="form-label">
+                        <i class="fas fa-users"></i>
+                        Select Customer
+                    </label>
+                    <select class="form-select" id="customerSelect" 
+                            [(ngModel)]="selectedCustomerId">
+                        <option value="" disabled selected>Select a customer</option>
+                        <option *ngFor="let customer of customers" [value]="customer.id">
+                            {{ customer.name }} | {{ customer.email }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Account Details -->
+            <div class="form-section">
+                <h4 class="section-title">
+                    <i class="fas fa-cog"></i>
+                    Account Configuration
+                </h4>
+    
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="initialBalance" class="form-label">
+                                <i class="fas fa-dollar-sign"></i>
+                                Initial Balance
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control currency" 
+                                       id="initialBalance" 
+                                       [(ngModel)]="initialBalance"
+                                       placeholder="0.00" step="0.01" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Current Account Specific Fields -->
+                    <div class="col-md-6">
+                        <div class="specific-fields" *ngIf="accountType === 'current'">
+                            <div class="mb-3">
+                                <label for="overDraft" class="form-label">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Overdraft Limit
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control currency" 
+                                           id="overDraft" 
+                                           [(ngModel)]="overDraft"
+                                           placeholder="0.00" step="0.01" min="0">
+                                </div>
+                                <div class="form-text">
+                                    Maximum amount that can be withdrawn beyond account balance
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Saving Account Specific Fields -->
+                        <div class="specific-fields" *ngIf="accountType === 'saving'">
+                            <div class="mb-3">
+                                <label for="interestRate" class="form-label">
+                                    <i class="fas fa-percentage"></i>
+                                    Interest Rate
+                                </label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" 
+                                           id="interestRate" 
+                                           [(ngModel)]="interestRate"
+                                           placeholder="0.00" step="0.01" min="0" max="100">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <div class="form-text">
+                                    Annual interest rate for the saving account
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-section">
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn-reset" (click)="resetForm()">
+                        <i class="fas fa-undo"></i>
+                        Reset Form
+                    </button>
+                    <button type="button" class="btn-create" (click)="onSubmit()" [disabled]="isLoading">
+                        <span *ngIf="!isLoading">
+                            <i class="fas fa-plus-circle"></i>
+                            Create Account
+                        </span>
+                        <span *ngIf="isLoading">
+                            <span class="spinner" role="status" aria-hidden="true"></span>
+                            Creating...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

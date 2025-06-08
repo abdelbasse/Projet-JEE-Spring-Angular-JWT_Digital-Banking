@@ -21,6 +21,12 @@
                     <div class="form-progress-bar"></div>
                 </div>
 
+                <!-- Error Alert -->
+                <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ errorMessage }}
+                </div>
+
                 <!-- Info Alert -->
                 <div class="form-info">
                     <i class="fas fa-info-circle"></i>
@@ -85,7 +91,7 @@
                             Complete Registration
                         </h5>
 
-                        <button type="button" class="btn btn-cancel">
+                        <button type="button" class="btn btn-cancel" (click)="handleCancel()">
                             <i class="fas fa-times me-2"></i>
                             Cancel
                         </button>

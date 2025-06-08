@@ -37,6 +37,11 @@ public class BankAccountServiceImpl implements BankAccountService {
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         Customer customer=dtoMapper.fromCustomerDTO(customerDTO);
         Customer savedCustomer = customerRepository.save(customer);
+
+//        System.out.println("Saved new customer - ID: " + savedCustomer.getId() +
+//                ", Name: " + savedCustomer.getName() +
+//                ", Email: " + savedCustomer.getEmail());
+
         return dtoMapper.fromCustomer(savedCustomer);
     }
 
@@ -175,19 +180,48 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException {
-        BankAccount bankAccount=bankAccountRepository.findById(accountId).orElse(null);
-        if(bankAccount==null) throw new BankAccountNotFoundException("Account not Found");
-        Page<AccountOperation> accountOperations = accountOperationRepository.findByBankAccountIdOrderByOperationDateDesc(accountId, PageRequest.of(page, size));
-        AccountHistoryDTO accountHistoryDTO=new AccountHistoryDTO();
-        List<AccountOperationDTO> accountOperationDTOS = accountOperations.getContent().stream().map(op -> dtoMapper.fromAccountOperation(op)).collect(Collectors.toList());
+        // Debug: Print all account IDs in the database
+        System.out.println("==== ALL ACCOUNTS IN DATABASE ====");
+        bankAccountRepository.findAll().forEach(account -> {
+            System.out.println("ID: " + account.getId() +
+                    " | Type: " + account.getClass().getSimpleName() +
+                    " | Balance: " + account.getBalance());
+        });
+        System.out.println("=================================");
+
+        // Now check the requested account
+        System.out.println("Searching for account with ID: '" + accountId + "'");
+
+        BankAccount bankAccount = bankAccountRepository.findById(accountId).orElse(null);
+
+        if (bankAccount == null) {
+            System.out.println("!! ERROR: Account not found !!");
+            System.out.println("Requested ID: '" + accountId + "'");
+            System.out.println("Length: " + accountId.length() + " characters");
+            throw new BankAccountNotFoundException("Account not Found");
+        }
+
+        System.out.println("Found account: " + bankAccount.getId());
+
+        Page<AccountOperation> accountOperations = accountOperationRepository.findByBankAccountIdOrderByOperationDateDesc(
+                accountId, PageRequest.of(page, size)
+        );
+
+        AccountHistoryDTO accountHistoryDTO = new AccountHistoryDTO();
+        List<AccountOperationDTO> accountOperationDTOS = accountOperations.getContent().stream()
+                .map(dtoMapper::fromAccountOperation)
+                .collect(Collectors.toList());
+
         accountHistoryDTO.setAccountOperationDTOS(accountOperationDTOS);
         accountHistoryDTO.setAccountId(bankAccount.getId());
         accountHistoryDTO.setBalance(bankAccount.getBalance());
         accountHistoryDTO.setCurrentPage(page);
         accountHistoryDTO.setPageSize(size);
         accountHistoryDTO.setTotalPages(accountOperations.getTotalPages());
+
         return accountHistoryDTO;
     }
+
 
     @Override
     public List<CustomerDTO> searchCustomers(String keyword) {

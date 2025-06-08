@@ -1,0 +1,428 @@
+/* accounts.component.css */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 15px;
+}
+
+.page-header {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.page-header p {
+  margin: 1rem 0 0 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.main-card {
+  background: white;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  padding: 2rem;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 3px solid #dee2e6;
+}
+
+.search-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2.5rem;
+  margin: -1px;
+  border-radius: 20px 20px 0 0;
+}
+
+.search-form .input-group {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  background: white;
+}
+
+.input-group-text {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 1.2rem 1.8rem;
+  font-size: 1rem;
+}
+
+.form-control {
+  border: none;
+  padding: 1.2rem 1.8rem;
+  font-size: 1.1rem;
+  background: white;
+  font-weight: 500;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+  border-color: transparent;
+}
+
+.btn-search {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: none;
+  color: white;
+  padding: 1.2rem 2.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-search:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+  color: white;
+}
+
+.account-details {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  padding: 2.5rem;
+  border-radius: 15px;
+  margin: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.detail-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.detail-item:hover {
+  transform: translateX(10px);
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.detail-value {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.balance-value {
+  color: #28a745;
+  font-size: 1.8rem;
+}
+
+.operations-table {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin: 2rem;
+}
+
+.table {
+  margin: 0;
+  background: transparent;
+}
+
+.table thead th {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border: none;
+  padding: 1.5rem 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.table tbody td {
+  padding: 1.5rem 1.2rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f3f4;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  transform: scale(1.02);
+}
+
+.pagination-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.pagination-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  margin: 0 0.3rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.pagination-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  color: white;
+}
+
+.pagination-btn.active {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  transform: scale(1.1);
+}
+
+.operations-form {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 2.5rem;
+  border-radius: 15px;
+  margin: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.form-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.operation-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.form-check {
+  background: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin: 0;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-check:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);
+}
+
+.form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.form-check-input:checked + .form-check-label {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-operation {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: none;
+  color: white;
+  padding: 1.2rem 2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.btn-operation:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+  color: white;
+}
+
+.error-message {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 15px;
+  margin: 2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
+}
+
+.loading-container {
+  text-align: center;
+  padding: 4rem;
+  color: #6c757d;
+}
+
+.loading-spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #667eea;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 2rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.amount-positive {
+  color: #28a745 !important;
+  font-weight: 700;
+}
+
+.amount-negative {
+  color: #dc3545 !important;
+  font-weight: 700;
+}
+
+.operation-type {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.operation-credit {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  color: #155724;
+}
+
+.operation-debit {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  color: #721c24;
+}
+
+.operation-transfer {
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+  color: #0c5460;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .operation-types {
+    flex-direction: column;
+  }
+  
+  .form-check {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.8rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .search-section {
+    padding: 1.5rem;
+  }
+  
+  .account-details,
+  .operations-table,
+  .operations-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .table thead th,
+  .table tbody td {
+    padding: 1rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .input-group-text,
+  .form-control,
+  .btn-search {
+    padding: 1rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .operation-types {
+    flex-direction: column;
+  }
+}

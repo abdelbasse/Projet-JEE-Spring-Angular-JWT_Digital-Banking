@@ -1,90 +1,202 @@
+<!-- accounts.component.html -->
 <div class="container mt-2">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>
+      <i class="fas fa-university"></i>
+      Banking Management System
+    </h1>
+    <p>Manage accounts and financial operations with ease</p>
+  </div>
+
   <div class="row">
-    <div class="col col-md-6">
-      <div class="card">
-        <div class="card-header">Accounts</div>
-        <div class="card-body">
-          <form [formGroup]="accountFormGroup" (ngSubmit)="handleSearchAccount()">
+    <!-- Accounts Section -->
+    <div class="col-lg-7">
+      <div class="main-card">
+        <div class="card-header">
+          <i class="fas fa-wallet"></i>
+          Account Management
+        </div>
+        
+        <!-- Search Section -->
+        <div class="search-section">
+          <form [formGroup]="accountFormGroup" (ngSubmit)="handleSearchAccount()" class="search-form">
             <div class="input-group">
-              <label class="input-group-text">Account Id :</label>
-              <input type="text" formControlName="accountId" class="form-control">
-              <button class="btn btn-info">
-                <i class="bi bi-search"></i>
+              <span class="input-group-text">
+                <i class="fas fa-search me-2"></i>
+                Account ID
+              </span>
+              <input type="text" formControlName="accountId" class="form-control" placeholder="Enter account number...">
+              <button class="btn btn-search" type="submit">
+                <i class="bi bi-search me-2"></i>
                 Search
               </button>
             </div>
           </form>
-          <ng-template #errorTemplate>
-            <ng-container *ngIf="errorMessage ; else loading">
-              <div class="text-danger">{{errorMessage}}</div>
-            </ng-container>
-            <ng-template #loading>
-              Loading ...
-            </ng-template>
+        </div>
+
+        <!-- Error/Loading Template -->
+        <ng-template #errorTemplate>
+          <ng-container *ngIf="errorMessage; else loading">
+            <div class="error-message">
+              <i class="fas fa-exclamation-triangle"></i>
+              <strong>Error:</strong> {{errorMessage}}
+            </div>
+          </ng-container>
+          <ng-template #loading>
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <h5>Loading account information...</h5>
+              <p class="text-muted">Please wait while we fetch your account details.</p>
+            </div>
           </ng-template>
-          <ng-container *ngIf="accountObservable | async as accountDetails">
-            <div class="mb-2">
-              <label>Account ID :</label>
-              <label><strong>{{accountDetails.accountId}}</strong></label>
+        </ng-template>
+
+        <!-- Account Details -->
+        <ng-container *ngIf="accountObservable | async as accountDetails; else errorTemplate">
+          <div class="account-details">
+            <div class="detail-item">
+              <div class="detail-label">
+                <i class="fas fa-hashtag"></i>
+                Account ID
+              </div>
+              <div class="detail-value">{{accountDetails.accountId}}</div>
             </div>
-            <div class="mb-2">
-              <label>Balance :</label>
-              <label><strong>{{accountDetails.balance | number : '1.2-2'}}</strong></label>
+            <div class="detail-item">
+              <div class="detail-label">
+                <i class="fas fa-money-bill-wave"></i>
+                Current Balance
+              </div>
+              <div class="detail-value balance-value">{{accountDetails.balance | number : '1.2-2'}}</div>
             </div>
+          </div>
+
+          <!-- Operations Table -->
+          <div class="operations-table">
             <table class="table">
               <thead>
-                <th>ID</th><th>Date</th><th>Type</th><th>Amount</th>
+                <tr>
+                  <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                  <th><i class="fas fa-calendar me-2"></i>Date</th>
+                  <th><i class="fas fa-tag me-2"></i>Type</th>
+                  <th><i class="fas fa-dollar-sign me-2"></i>Amount</th>
+                </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let op of accountDetails.accountOperationDTOS">
                   <td>{{op.id}}</td>
-                  <td>{{op.operationDate | date : 'dd-MM-yyyy:HH-mm-ss'}}</td>
-                  <td>{{op.type}}</td>
-                  <td class="text-end">{{op.amount | number : '1.2-2'}}</td>
+                  <td>{{op.operationDate | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
+                  <td>
+                    <span class="operation-type" 
+                          [ngClass]="{
+                            'operation-credit': op.type === 'CREDIT',
+                            'operation-debit': op.type === 'DEBIT',
+                            'operation-transfer': op.type === 'TRANSFER'
+                          }">
+                      {{op.type}}
+                    </span>
+                  </td>
+                  <td class="text-end" 
+                      [ngClass]="{
+                        'amount-positive': op.amount > 0,
+                        'amount-negative': op.amount < 0
+                      }">
+                    {{op.type === 'CREDIT' ? '+' : (op.type === 'DEBIT' ? '-' : '')}}{{op.amount | number : '1.2-2'}}
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <ul class="nav nav-pills">
-              <li *ngFor="let item of [].constructor(accountDetails.totalPages);let page=index">
-                <a [ngClass]="page==currentPage?'btn-info':'btn-outline-info'" (click)="gotoPage(page)" class="btn  ms-1 mt-1">{{page}}</a>
-              </li>
-            </ul>
-          </ng-container>
-        </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-container">
+            <button *ngFor="let item of [].constructor(accountDetails.totalPages); let page=index"
+                    [ngClass]="page == currentPage ? 'pagination-btn active' : 'pagination-btn'"
+                    (click)="gotoPage(page)">
+              {{page}}
+            </button>
+          </div>
+        </ng-container>
       </div>
     </div>
-    <div class="col col-md-6">
-      <div class="card" *ngIf="accountObservable">
-        <div class="card-header">Operations</div>
-        <div class="card-body">
 
-          <form [formGroup]="operationFromGroup" (ngSubmit)="handleAccountOperation()" method="post">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="operationType" value="DEBIT">
-              <label class="form-check-label">DEBIT:</label>
+    <!-- Operations Section -->
+    <div class="col-lg-5">
+      <div class="main-card" *ngIf="accountObservable">
+        <div class="card-header">
+          <i class="fas fa-exchange-alt"></i>
+          Financial Operations
+        </div>
+
+        <div class="operations-form">
+          <form [formGroup]="operationFromGroup" (ngSubmit)="handleAccountOperation()" class="form-section">
+            <!-- Operation Type Selection -->
+            <div class="mb-4">
+              <label class="form-label">
+                <i class="fas fa-cogs"></i>
+                Operation Type
+              </label>
+              <div class="operation-types">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="operationType" value="DEBIT" id="debit">
+                  <label class="form-check-label" for="debit">
+                    <i class="fas fa-minus-circle me-1"></i>
+                    DEBIT
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="operationType" value="CREDIT" id="credit">
+                  <label class="form-check-label" for="credit">
+                    <i class="fas fa-plus-circle me-1"></i>
+                    CREDIT
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="operationType" value="TRANSFER" id="transfer">
+                  <label class="form-check-label" for="transfer">
+                    <i class="fas fa-exchange-alt me-1"></i>
+                    TRANSFER
+                  </label>
+                </div>
+              </div>
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="operationType" value="CREDIT">
-              <label class="form-check-label">CREDIT:</label>
+
+            <!-- Transfer Destination -->
+            <div class="mb-3" *ngIf="operationFromGroup.value.operationType == 'TRANSFER'">
+              <label class="form-label">
+                <i class="fas fa-arrow-right"></i>
+                Destination Account
+              </label>
+              <input type="text" formControlName="accountDestination" class="form-control" 
+                     placeholder="Enter destination account number">
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="operationType" value="TRANSFER">
-              <label class="form-check-label">TRANSFER:</label>
-            </div>
-            <div class="mb-3" *ngIf="operationFromGroup.value.operationType=='TRANSFER'">
-              <label class="form-label">Account Destination :</label>
-              <input type="text" formControlName="accountDestination" class="form-control">
-            </div>
+
+            <!-- Amount -->
             <div class="mb-3">
-              <label class="form-label">Amount :</label>
-              <input type="text" formControlName="amount" class="form-control">
+              <label class="form-label">
+                <i class="fas fa-dollar-sign"></i>
+                Amount
+              </label>
+              <input type="number" formControlName="amount" class="form-control" 
+                     placeholder="0.00" step="0.01">
             </div>
+
+            <!-- Description -->
             <div class="mb-3">
-              <label class="form-label">Description :</label>
-              <input type="text" formControlName="description" class="form-control">
+              <label class="form-label">
+                <i class="fas fa-comment"></i>
+                Description
+              </label>
+              <input type="text" formControlName="description" class="form-control" 
+                     placeholder="Enter transaction description">
             </div>
-            <div class="d-grid mb-3">
-              <button class="btn btn-success">Save Operation</button>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-operation">
+                <i class="fas fa-check-circle me-2"></i>
+                Process Operation
+              </button>
             </div>
           </form>
         </div>

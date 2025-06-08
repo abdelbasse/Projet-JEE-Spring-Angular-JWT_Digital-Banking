@@ -1,0 +1,134 @@
+<div class="container mt-4">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>
+      <i class="fas fa-list-alt"></i>
+      All Bank Accounts
+    </h1>
+    <p>View and manage all registered bank accounts in the system</p>
+  </div>
+
+  <!-- Statistics Row -->
+  <div class="main-card mb-4">
+    <div class="stats-row">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="stat-card">
+            <i class="fas fa-credit-card stat-icon stat-current"></i>
+            <h3 class="stat-number">{{ currentAccountsCount }}</h3>
+            <p class="stat-label">Current Accounts</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <i class="fas fa-piggy-bank stat-icon stat-saving"></i>
+            <h3 class="stat-number">{{ savingAccountsCount }}</h3>
+            <p class="stat-label">Saving Accounts</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <i class="fas fa-university stat-icon stat-total"></i>
+            <h3 class="stat-number">{{ totalAccountsCount }}</h3>
+            <p class="stat-label">Total Accounts</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accounts Table -->
+  <div class="main-card">
+    <div class="card-header">
+      <i class="fas fa-table"></i>
+      Accounts Overview
+      <button class="btn btn-sm btn-refresh" (click)="refreshAccounts()">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+    </div>
+    
+    <div class="table-container">
+      <div *ngIf="isLoading">
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <h5>Loading accounts...</h5>
+          <p class="text-muted">Please wait while we fetch all account information.</p>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>Error:</strong> {{ errorMessage }}
+        <button class="btn btn-sm btn-retry" (click)="loadAllAccounts()">
+          <i class="fas fa-redo"></i> Retry
+        </button>
+      </div>
+
+      <div *ngIf="!isLoading && !errorMessage">
+        <table *ngIf="accounts.length > 0; else noAccounts" class="table custom-table">
+          <thead>
+            <tr>
+              <th><i class="fas fa-hashtag me-2"></i>Account ID</th>
+              <th><i class="fas fa-user me-2"></i>Customer</th>
+              <th><i class="fas fa-tag me-2"></i>Type</th>
+              <th><i class="fas fa-dollar-sign me-2"></i>Balance</th>
+              <th><i class="fas fa-calendar me-2"></i>Created</th>
+              <th><i class="fas fa-info-circle me-2"></i>Details</th>
+              <th><i class="fas fa-cogs me-2"></i>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let account of accounts">
+              <td>
+                <span class="account-id">{{ account.id }}</span>
+              </td>
+              <td>
+                <div class="customer-info">
+                  <div class="customer-avatar">{{ getInitials(account.customerDTO?.name || '') }}</div>
+                  <div class="customer-details">
+                    <h6>{{ account.customerDTO?.name || 'Unknown' }}</h6>
+                    <small>{{ account.customerDTO?.email || 'No email' }}</small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="account-type-badge" [ngClass]="{
+                  'badge-current': account.type === 'CurrentAccount',
+                  'badge-saving': account.type === 'SavingAccount'
+                }">
+                  <i class="fas" 
+                     [class.fa-credit-card]="account.type === 'CurrentAccount'" 
+                     [class.fa-piggy-bank]="account.type === 'SavingAccount'" 
+                     class="me-1"></i>
+                  {{ account.type === 'CurrentAccount' ? 'Current' : 'Saving' }}
+                </span>
+              </td>
+              <td>
+                <span class="balance-amount" [ngClass]="{
+                  'balance-positive': account.balance >= 0, 
+                  'balance-negative': account.balance < 0
+                }">
+                  ${{ account.balance | number:'1.2-2' }}
+                </span>
+              </td>
+              <td>
+                {{ formatDate(account.createdAt) }}
+              </td>
+              <td>
+                <small class="text-muted">{{ getAccountSpecificDetail(account) }}</small>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ng-template #noAccounts>
+          <div class="no-accounts">
+            <i class="fas fa-inbox"></i>
+            <h5>No Accounts Found</h5>
+            <p>There are currently no bank accounts in the system.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

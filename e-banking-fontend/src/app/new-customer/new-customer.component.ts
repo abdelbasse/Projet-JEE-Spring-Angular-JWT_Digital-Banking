@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 })
 export class NewCustomerComponent implements OnInit {
   newCustomerFormGroup! : FormGroup;
+  errorMessage: string | null = null; // <-- Add this line
+
   constructor(private fb : FormBuilder, private customerService:CustomerService, private router:Router) { }
 
   ngOnInit(): void {
@@ -21,16 +23,20 @@ export class NewCustomerComponent implements OnInit {
   }
 
   handleSaveCustomer() {
+    this.errorMessage = null; // Reset error message
     let customer:Customer=this.newCustomerFormGroup.value;
     this.customerService.saveCustomer(customer).subscribe({
       next : data=>{
         alert("Customer has been successfully saved!");
-        //this.newCustomerFormGroup.reset();
         this.router.navigateByUrl("/customers");
       },
       error : err => {
-        console.log(err);
+        this.errorMessage = err.error?.message || "An error occurred while saving the customer.";
       }
     });
+  }
+
+  handleCancel() {
+    this.router.navigateByUrl('/admin/customers');
   }
 }

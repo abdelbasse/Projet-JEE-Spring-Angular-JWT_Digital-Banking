@@ -1,18 +1,18 @@
 
 
 
-GET http://localhost:8085/customers
+GET http://localhost:8085/accounts/902eb9cb-49e1-42ee-b4d3-658394dafa35/pageOperations
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzQ5MzI3NTM0LCJpYXQiOjE3NDkzMjY5MzQsInNjb3BlIjoiVVNFUiJ9.SYGmvu9L11eaXroB1orx8u3sgfYtItZxqbiT83KRAYchtLre2uubsOUQx9r4GHu23E5Lwa42J54URQnRWQSthg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM0NzQxMywiaWF0IjoxNzQ5MzQ2ODEzLCJzY29wZSI6IkFETUlOIFVTRVIifQ.sXZ5IbX64AjyQD2yoyuGTzuXd31LpLL1FaVDJIsdsAM4GtHaGzLVWXOMlWBSkllfFNM0sVcsGL0b9QI6v06OaQ
 
 ###
 
-GET http://localhost:8085/auth/profile
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNzQ5MzI3NTM0LCJpYXQiOjE3NDkzMjY5MzQsInNjb3BlIjoiVVNFUiJ9.SYGmvu9L11eaXroB1orx8u3sgfYtItZxqbiT83KRAYchtLre2uubsOUQx9r4GHu23E5Lwa42J54URQnRWQSthg
+GET http://localhost:8085/accounts/new
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM1MzUzMiwiaWF0IjoxNzQ5MzUyOTMyLCJzY29wZSI6IkFETUlOIFVTRVIifQ.SamFrbWRAvX6MmRgrKftqqetdpYTxqCCl0n_uqWiFJd90tsN6RZuJwfZua4DNtS92Aoi7iyn8m2xR7LNqOeaoQ
 
 ###
 
 POST http://localhost:8085/auth/login
 Content-Type: application/x-www-form-urlencoded
 
-username=user&password=12345
+username=admin&password=12345

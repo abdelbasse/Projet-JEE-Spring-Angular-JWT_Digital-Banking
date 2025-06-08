@@ -19,17 +19,22 @@ public class BankAccountMapperImpl {
         return  customerDTO;
     }
     public Customer fromCustomerDTO(CustomerDTO customerDTO){
-        Customer customer=new Customer();
-        BeanUtils.copyProperties(customerDTO,customer);
-        return  customer;
+        Customer customer = new Customer();
+        if (customerDTO.getId() != null) {
+            customer.setId(customerDTO.getId());
+        }
+        customer.setName(customerDTO.getName());
+        customer.setEmail(customerDTO.getEmail());
+        return customer;
     }
 
     public SavingBankAccountDTO fromSavingBankAccount(SavingAccount savingAccount){
-        SavingBankAccountDTO savingBankAccountDTO=new SavingBankAccountDTO();
-        BeanUtils.copyProperties(savingAccount,savingBankAccountDTO);
-        savingBankAccountDTO.setCustomerDTO(fromCustomer(savingAccount.getCustomer()));
-        savingBankAccountDTO.setType(savingAccount.getClass().getSimpleName());
-        return savingBankAccountDTO;
+        SavingBankAccountDTO dto = new SavingBankAccountDTO();
+        BeanUtils.copyProperties(savingAccount, dto);
+        dto.setCustomerDTO(fromCustomer(savingAccount.getCustomer()));
+        dto.setType(savingAccount.getClass().getSimpleName());
+        System.out.println("Mapped SavingAccount to DTO: " + dto);
+        return dto;
     }
 
     public SavingAccount fromSavingBankAccountDTO(SavingBankAccountDTO savingBankAccountDTO){
@@ -40,11 +45,12 @@ public class BankAccountMapperImpl {
     }
 
     public CurrentBankAccountDTO fromCurrentBankAccount(CurrentAccount currentAccount){
-        CurrentBankAccountDTO currentBankAccountDTO=new CurrentBankAccountDTO();
-        BeanUtils.copyProperties(currentAccount,currentBankAccountDTO);
-        currentBankAccountDTO.setCustomerDTO(fromCustomer(currentAccount.getCustomer()));
-        currentBankAccountDTO.setType(currentAccount.getClass().getSimpleName());
-        return currentBankAccountDTO;
+        CurrentBankAccountDTO dto = new CurrentBankAccountDTO();
+        BeanUtils.copyProperties(currentAccount, dto);
+        dto.setCustomerDTO(fromCustomer(currentAccount.getCustomer()));
+        dto.setType(currentAccount.getClass().getSimpleName());
+        System.out.println("Mapped CurrentAccount to DTO: " + dto);
+        return dto;
     }
 
     public CurrentAccount fromCurrentBankAccountDTO(CurrentBankAccountDTO currentBankAccountDTO){

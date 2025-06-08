@@ -1,42 +1,3 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admin/accounts">Accounts</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Customers
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="/admin/customers">Search customers</a></li>
-            <li><a class="dropdown-item" routerLink="/admin/new-customer">New customer</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-      </ul>
-
-       <ul class="navbar-nav ms-auto mb-2 mb-lg-0" *ngIf="authService.isAuthenticated == true">
-        <li class="nav-item nav-link" style="color: white;">
-          {{this.authService.username}}
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-success" (click)="handleLogout()">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
@@ -68,25 +29,25 @@
                                 <i class="fas fa-search"></i>
                                 Search Customers
                             </a></li>
-                            <li><a class="dropdown-item" routerLink="/admin/new-customer">
+                            <li *ngIf="authService.roles.includes('ADMIN')"><a class="dropdown-item" routerLink="/admin/new-customer">
                                 <i class="fas fa-user-plus"></i>
                                 New Customer
                             </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" routerLink="/admin/customers/manage">
+                            <!-- <li *ngIf="authService.roles.includes('ADMIN')"><hr class="dropdown-divider"></li>
+                            <li *ngIf="authService.roles.includes('ADMIN')"><a class="dropdown-item" routerLink="/admin/customers/manage">
                                 <i class="fas fa-cogs"></i>
                                 Manage Customers
-                            </a></li>
+                            </a></li> -->
                         </ul>
                     </li>
                     
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" *ngIf="authService.roles.includes('ADMIN')">
                         <a class="nav-link dropdown-toggle" href="#" id="accountsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-credit-card"></i>
                             Accounts
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountsDropdown">
-                            <li><a class="dropdown-item" routerLink="/admin/accounts">
+                            <li><a class="dropdown-item" routerLink="/admin/accounts/list">
                                 <i class="fas fa-list"></i>
                                 All Accounts
                             </a></li>
@@ -98,15 +59,10 @@
                                 <i class="fas fa-search"></i>
                                 Search Accounts
                             </a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" routerLink="/admin/accounts/operations">
-                                <i class="fas fa-exchange-alt"></i>
-                                Operations
-                            </a></li>
                         </ul>
                     </li>
                     
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" *ngIf="authService.roles.includes('ADMIN')">
                         <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-chart-bar"></i>
                             Reports
@@ -127,7 +83,7 @@
                         </ul>
                     </li>
                     
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" *ngIf="authService.roles.includes('ADMIN')">
                         <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-cog"></i>
                             Settings

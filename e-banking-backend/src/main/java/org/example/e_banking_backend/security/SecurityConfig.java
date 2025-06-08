@@ -70,6 +70,7 @@ public class SecurityConfig {
 ////                .csrf(csrf -> csrf.disable())
 ////                .build();
 ////    }
+///
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -81,7 +82,22 @@ public class SecurityConfig {
                 .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
                 .build();
     }
-//
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity
+//            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**")) // Allow H2 console without CSRF
+//            .headers(headers -> headers.frameOptions().disable()) // Allow frames for H2 console
+//            .cors(Customizer.withDefaults())
+//            .authorizeHttpRequests(ar -> ar
+//                    .requestMatchers("/auth/login/**", "/h2-console/**").permitAll() // Allow login and H2 console
+//                    .anyRequest().authenticated()
+//            )
+//            .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
+//            .build();
+//    }
+
     @Bean
     JwtEncoder jwtEncoder() {
         //String secretKey="9faa372517ac1d389758d3750fc07acf00f542277f26fec1ce4593e93f64e338";
