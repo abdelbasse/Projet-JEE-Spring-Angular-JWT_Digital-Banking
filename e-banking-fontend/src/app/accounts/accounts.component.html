@@ -121,7 +121,7 @@
     </div>
 
     <!-- Operations Section -->
-    <div class="col-lg-5">
+    <div class="col-lg-5" *ngIf="authService.roles.includes('ADMIN')">
       <div class="main-card" *ngIf="accountObservable">
         <div class="card-header">
           <i class="fas fa-exchange-alt"></i>

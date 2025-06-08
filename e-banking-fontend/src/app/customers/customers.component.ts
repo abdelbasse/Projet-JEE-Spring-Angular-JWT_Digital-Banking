@@ -5,6 +5,7 @@ import {catchError, map, Observable, throwError} from "rxjs";
 import {Customer} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-customers',
@@ -19,7 +20,7 @@ export class CustomersComponent implements OnInit {
   // Only totalCustomers is dynamic
   totalCustomers: number = 0;
 
-  constructor(private customerService: CustomerService, private fb: FormBuilder, private router: Router) { }
+  constructor(private customerService: CustomerService, private fb: FormBuilder, private router: Router,public authService : AuthService) { }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
