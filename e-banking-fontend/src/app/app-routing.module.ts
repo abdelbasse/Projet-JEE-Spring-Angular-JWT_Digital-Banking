@@ -13,6 +13,9 @@ import { DashbaordComponent } from './dashbaord/dashbaord.component';
 import { AllAccountsComponent } from './accounts/all-accounts/all-accounts.component';
 import { SimpleTemplateComponent } from './simple-template/simple-template.component';
 import { NewAccountComponent } from './accounts/new-account/new-account.component';
+import { ListUsersComponent } from './users/list-users/list-users.component';
+import { NewUserComponent } from './users/new-user/new-user.component';
+import { ChangePassComponent } from './users/change-pass/change-pass.component';
 
 const routes: Routes = [
   { path :"login", component : LoginComponent},
@@ -24,6 +27,11 @@ const routes: Routes = [
       { path :"search", component : AccountsComponent},
       { path :"new", component : NewAccountComponent},
       { path :"list", component : AllAccountsComponent},
+    ]},
+    { path :"users", component : SimpleTemplateComponent ,children : [
+      { path :"", component : ListUsersComponent},
+      { path :"new", component : NewUserComponent},
+      { path :"change-pass", component : ChangePassComponent},
     ]},
     { path :"new-customer", component : NewCustomerComponent , canActivate : [AuthorizationGuard] , data : {role:"ADMIN"}},
     { path :"customer-accounts/:id", component : CustomerAccountsComponent},

@@ -100,19 +100,19 @@ public class UserAuthService implements UserDetailsService {
         return appUserRepository.save(user);
     }
 
-    public void changePassword(String username, String oldPassword, String newPassword) {
-        AppUser user = appUserRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new IllegalArgumentException("Old password is incorrect");
-        }
-
-        user.setPassword(passwordEncoder.encode(newPassword));
-        appUserRepository.save(user);
-    }
+//    public void changePassword(String username, String oldPassword, String newPassword) {
+//        AppUser user = appUserRepository.findByUsername(username);
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found");
+//        }
+//
+//        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+//            throw new IllegalArgumentException("Old password is incorrect");
+//        }
+//
+//        user.setPassword(passwordEncoder.encode(newPassword));
+//        appUserRepository.save(user);
+//    }
 
     public void deleteUser(String username) {
         AppUser user = appUserRepository.findByUsername(username);
@@ -120,6 +120,15 @@ public class UserAuthService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         appUserRepository.delete(user);
+    }
+
+    public void resetPassword(String username, String newPassword) {
+        AppUser user = appUserRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        appUserRepository.save(user);
     }
 
     public List<AppUser> getAllUsers() {

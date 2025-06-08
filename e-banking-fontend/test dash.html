@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Banking Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-fluid {
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+            height: 100%;
+            border: none;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            min-height: 400px;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #495057;
+            border-bottom: 2px solid #f1f3f4;
+            padding-bottom: 1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .recent-transactions {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            min-height: 400px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f3f4;
+            transition: background-color 0.3s ease;
+        }
+
+        .transaction-item:hover {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 0 -0.5rem;
+            padding: 1rem 0.5rem;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-type {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .credit {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .debit {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .transfer {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: #6c757d;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 1rem 0.5rem;
+            }
+            
+            .page-header {
+                padding: 1.5rem;
+            }
+            
+            .chart-card {
+                min-height: 350px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-chart-line"></i>
+                E-Banking Dashboard
+            </h1>
+            <p>Overview of your banking system statistics and performance</p>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="row mb-4">
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon text-primary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number text-primary" id="totalCustomers">Loading...</div>
+                    <div class="stat-label">Total Customers</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon text-success">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="stat-number text-success" id="totalAccounts">Loading...</div>
+                    <div class="stat-label">Bank Accounts</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon text-info">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-number text-info" id="totalTransactions">Loading...</div>
+                    <div class="stat-label">Transactions</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon text-warning">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-number text-warning" id="totalBalance">Loading...</div>
+                    <div class="stat-label">Total Balance</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon text-danger">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="stat-number text-danger" id="savingsAccounts">Loading...</div>
+                    <div class="stat-label">Savings Accounts</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon text-secondary">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-number text-secondary" id="currentAccounts">Loading...</div>
+                    <div class="stat-label">Current Accounts</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <i class="fas fa-chart-pie text-primary"></i>
+                        Account Types Distribution
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="accountTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <i class="fas fa-chart-bar text-success"></i>
+                        Monthly Transactions Volume
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="transactionsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <i class="fas fa-chart-area text-info"></i>
+                        Account Balance Trends Over Time
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="balanceTrendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="recent-transactions">
+                    <div class="chart-header">
+                        <i class="fas fa-history text-warning"></i>
+                        Recent Transactions
+                    </div>
+                    <div id="recentTransactionsList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading transactions...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <i class="fas fa-chart-line text-success"></i>
+                        Customer Growth Trend
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="customerGrowthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <i class="fas fa-chart-donut text-danger"></i>
+                        Transaction Types Distribution
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="transactionTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data - replace with actual API calls to your Spring Boot backend
+        const dashboardData = {
+            customers: 1234,
+            accounts: 2456,
+            transactions: 15678,
+            totalBalance: 2400000,
+            savingsAccounts: 856,
+            currentAccounts: 1600,
+            accountTypes: {
+                'Savings Account': 856,
+                'Current Account': 1600
+            },
+            monthlyTransactions: [1200, 1450, 1800, 2100, 1950, 2300, 2150, 2400, 2200, 2600, 2350, 2800],
+            customerGrowth: [980, 1020, 1080, 1150, 1200, 1234],
+            transactionTypes: {
+                'Credit Operations': 8500,
+                'Debit Operations': 5200,
+                'Transfer Operations': 1978
+            },
+            balanceTrends: [1800000, 1950000, 2100000, 2200000, 2350000, 2400000],
+            recentTransactions: [
+                { type: 'CREDIT', amount: 1500, description: 'Salary deposit', date: '2025-06-08', account: 'ACC-001' },
+                { type: 'DEBIT', amount: 250, description: 'ATM withdrawal', date: '2025-06-07', account: 'ACC-002' },
+                { type: 'TRANSFER', amount: 800, description: 'Transfer to savings', date: '2025-06-07', account: 'ACC-003' },
+                { type: 'CREDIT', amount: 300, description: 'Investment return', date: '2025-06-06', account: 'ACC-001' },
+                { type: 'DEBIT', amount: 120, description: 'Online purchase', date: '2025-06-06', account: 'ACC-004' },
+                { type: 'TRANSFER', amount: 500, description: 'Bill payment', date: '2025-06-05', account: 'ACC-002' }
+            ]
+        };
+
+        let charts = {};
+
+        // Initialize Dashboard
+        function initializeDashboard() {
+            console.log('Initializing dashboard...');
+            updateStatsCards();
+            createCharts();
+            populateRecentTransactions();
+        }
+
+        // Update stats cards
+        function updateStatsCards() {
+            document.getElementById('totalCustomers').textContent = dashboardData.customers.toLocaleString();
+            document.getElementById('totalAccounts').textContent = dashboardData.accounts.toLocaleString();
+            document.getElementById('totalTransactions').textContent = dashboardData.transactions.toLocaleString();
+            document.getElementById('totalBalance').textContent = '$' + (dashboardData.totalBalance / 1000000).toFixed(1) + 'M';
+            document.getElementById('savingsAccounts').textContent = dashboardData.savingsAccounts.toLocaleString();
+            document.getElementById('currentAccounts').textContent = dashboardData.currentAccounts.toLocaleString();
+        }
+
+        // Create all charts
+        function createCharts() {
+            createAccountTypesChart();
+            createTransactionsChart();
+            createBalanceTrendsChart();
+            createCustomerGrowthChart();
+            createTransactionTypesChart();
+        }
+
+        // Account Types Pie Chart
+        function createAccountTypesChart() {
+            const ctx = document.getElementById('accountTypesChart').getContext('2d');
+            if (!ctx) return;
+
+            charts.accountTypes = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(dashboardData.accountTypes),
+                    datasets: [{
+                        data: Object.values(dashboardData.accountTypes),
+                        backgroundColor: [
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(0, 123, 255, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(0, 123, 255, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Monthly Transactions Chart
+        function createTransactionsChart() {
+            const ctx = document.getElementById('transactionsChart').getContext('2d');
+            if (!ctx) return;
+
+            charts.transactions = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Monthly Transactions',
+                        data: dashboardData.monthlyTransactions,
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Balance Trends Chart
+        function createBalanceTrendsChart() {
+            const ctx = document.getElementById('balanceTrendsChart').getContext('2d');
+            if (!ctx) return;
+
+            charts.balanceTrends = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Total Balance',
+                        data: dashboardData.balanceTrends,
+                        backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                        borderColor: 'rgba(23, 162, 184, 1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(23, 162, 184, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value / 1000000).toFixed(1) + 'M';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Customer Growth Chart
+        function createCustomerGrowthChart() {
+            const ctx = document.getElementById('customerGrowthChart').getContext('2d');
+            if (!ctx) return;
+
+            charts.customerGrowth = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Total Customers',
+                        data: dashboardData.customerGrowth,
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(40, 167, 69, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Transaction Types Chart
+        function createTransactionTypesChart() {
+            const ctx = document.getElementById('transactionTypesChart').getContext('2d');
+            if (!ctx) return;
+
+            charts.transactionTypes = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(dashboardData.transactionTypes),
+                    datasets: [{
+                        data: Object.values(dashboardData.transactionTypes),
+                        backgroundColor: [
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(23, 162, 184, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(23, 162, 184, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ${value.toLocaleString()} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Populate Recent Transactions
+        function populateRecentTransactions() {
+            const container = document.getElementById('recentTransactionsList');
+            container.innerHTML = '';
+
+            dashboardData.recentTransactions.forEach(transaction => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                
+                const typeClass = transaction.type.toLowerCase();
+                const icon = transaction.type === 'CREDIT' ? 'fa-arrow-down text-success' : 
+                           transaction.type === 'DEBIT' ? 'fa-arrow-up text-danger' : 'fa-exchange-alt text-info';
+                
+                const amountPrefix = transaction.type === 'DEBIT' ? '-' : '+';
+                const amountClass = transaction.type === 'DEBIT' ? 'text-danger' : 'text-success';
+                
+                item.innerHTML = `
+                    <div>
+                        <div class="d-flex align-items-center mb-1">
+                            <i class="fas ${icon} me-2"></i>
+                            <strong>${transaction.description}</strong>
+                        </div>
+                        <small class="text-muted">${transaction.date} • ${transaction.account}</small>
+                    </div>
+                    <div class="text-end">
+                        <span class="transaction-type ${typeClass}">${transaction.type}</span>
+                        <div class="fw-bold ${amountClass}">${amountPrefix}$${transaction.amount.toLocaleString()}</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Simulate real-time updates
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                // Update some random stats
+                dashboardData.transactions += Math.floor(Math.random() * 3) + 1;
+                dashboardData.totalBalance += Math.floor(Math.random() * 5000) + 1000;
+                
+                // Update UI
+                document.getElementById('totalTransactions').textContent = dashboardData.transactions.toLocaleString();
+                document.getElementById('totalBalance').textContent = '$' + (dashboardData.totalBalance / 1000000).toFixed(1) + 'M';
+            }, 8000);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, starting initialization...');
+            initializeDashboard();
+            simulateRealTimeUpdates();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            Object.values(charts).forEach(chart => {
+                if (chart) {
+                    chart.update();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

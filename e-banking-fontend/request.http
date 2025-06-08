@@ -7,8 +7,37 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4M
 
 ###
 
-GET http://localhost:8085/customers
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Mjc2OSwiaWF0IjoxNzQ5MzgyMTY5LCJzY29wZSI6IkFETUlOIFVTRVIifQ.2Dip-vMnmlMXGHVA78M5Eo4iS51_1bcrpO5nzMjEF0fCdHZAV5H7BQA5kNlYg0OyXIOPbHilUYb6dJftCWKjoA
+DELETE http://localhost:8085/api/users/wassap
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4NTgyMSwiaWF0IjoxNzQ5Mzg1MjIxLCJzY29wZSI6IkFETUlOIFVTRVIifQ.6gJn50nrSVxKMFIL06aEvdJy1Vk7OjZQT20oBRwg0ffuOxFxBh4Qe2UeJu3d6NHF2tjFcZfTxJ8YQxR8wPTVgQ
+
+###
+
+POST http://localhost:8085/api/users/newuser/reset-password
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Nzk5NiwiaWF0IjoxNzQ5Mzg3Mzk2LCJzY29wZSI6IkFETUlOIFVTRVIifQ.BYsSag7zb8Nr-59XfElaiyP4HazehoxygSC0pZlaQ9UADVvFFn4Aq0cWevpVM1wvy_FfK0Ez0Wi0mGAgCfYV3Q
+
+{
+  "newPassword": "123456"
+}
+
+
+###
+
+POST http://localhost:8085/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Nzk5NiwiaWF0IjoxNzQ5Mzg3Mzk2LCJzY29wZSI6IkFETUlOIFVTRVIifQ.BYsSag7zb8Nr-59XfElaiyP4HazehoxygSC0pZlaQ9UADVvFFn4Aq0cWevpVM1wvy_FfK0Ez0Wi0mGAgCfYV3Q
+
+{
+  "username": "newuser",
+  "password": "password123",
+  "roles": ["USER"]
+}
+
+
+###
+
+GET http://localhost:8085/api/users
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Nzk5NiwiaWF0IjoxNzQ5Mzg3Mzk2LCJzY29wZSI6IkFETUlOIFVTRVIifQ.BYsSag7zb8Nr-59XfElaiyP4HazehoxygSC0pZlaQ9UADVvFFn4Aq0cWevpVM1wvy_FfK0Ez0Wi0mGAgCfYV3Q
 
 ###
 

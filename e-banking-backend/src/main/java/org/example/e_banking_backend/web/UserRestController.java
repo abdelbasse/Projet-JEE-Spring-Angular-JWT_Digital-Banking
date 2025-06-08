@@ -1,7 +1,7 @@
 package org.example.e_banking_backend.web;
 
-import org.example.e_banking_backend.dtos.ChangePasswordDTO;
 import org.example.e_banking_backend.dtos.CreateUserDTO;
+import org.example.e_banking_backend.dtos.ResetPasswordDTO;
 import org.example.e_banking_backend.entities.AppUser;
 import org.example.e_banking_backend.services.UserAuthService;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +31,12 @@ public class UserRestController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/{username}/change-password")
-    public ResponseEntity<String> changePassword(
+    @PostMapping("/{username}/reset-password")
+    public ResponseEntity<String> resetPassword(
             @PathVariable String username,
-            @RequestBody ChangePasswordDTO changePasswordDTO) {
-        userAuthService.changePassword(username, changePasswordDTO.oldPassword(), changePasswordDTO.newPassword());
-        return ResponseEntity.ok("Password changed successfully");
+            @RequestBody ResetPasswordDTO dto) {
+        userAuthService.resetPassword(username, dto.newPassword());
+        return ResponseEntity.ok("Password reset successfully");
     }
 
     @DeleteMapping("/{username}")

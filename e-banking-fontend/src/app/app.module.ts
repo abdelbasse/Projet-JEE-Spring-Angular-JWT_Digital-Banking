@@ -18,6 +18,9 @@ import { DashbaordComponent } from './dashbaord/dashbaord.component';
 import { AllAccountsComponent } from './accounts/all-accounts/all-accounts.component';
 import { SimpleTemplateComponent } from './simple-template/simple-template.component';
 import { NewAccountComponent } from './accounts/new-account/new-account.component';
+import { ListUsersComponent } from './users/list-users/list-users.component';
+import { NewUserComponent } from './users/new-user/new-user.component';
+import { ChangePassComponent } from './users/change-pass/change-pass.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { NewAccountComponent } from './accounts/new-account/new-account.componen
     DashbaordComponent,
     AllAccountsComponent,
     SimpleTemplateComponent,
-    NewAccountComponent
+    NewAccountComponent,
+    ListUsersComponent,
+    NewUserComponent,
+    ChangePassComponent
   ],
   imports: [
     BrowserModule,

@@ -83,21 +83,21 @@
                         </ul>
                     </li>
                     
-                    <li class="nav-item dropdown" *ngIf="authService.roles.includes('ADMIN')">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-cog"></i>
                             Settings
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
-                            <li><a class="dropdown-item" routerLink="/admin/users">
+                            <li *ngIf="authService.roles.includes('ADMIN')"><a class="dropdown-item" routerLink="/admin/users">
                                 <i class="fas fa-users-cog"></i>
                                 User Management
                             </a></li>
-                            <li><a class="dropdown-item" routerLink="/admin/profile">
+                            <li *ngIf="authService.roles.includes('ADMIN')"><a class="dropdown-item" routerLink="/admin/users/new">
                                 <i class="fas fa-user-edit"></i>
-                                Profile Settings
+                                New User
                             </a></li>
-                            <li><a class="dropdown-item" routerLink="/admin/change-password">
+                            <li><a class="dropdown-item" routerLink="/admin/users/change-pass">
                                 <i class="fas fa-key"></i>
                                 Change Password
                             </a></li>
