@@ -1,6 +1,7 @@
 package org.example.e_banking_backend.security;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import org.example.e_banking_backend.services.UserAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -111,11 +112,19 @@ public class SecurityConfig {
         return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
     }
 
+//    @Bean
+//    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+//        return new ProviderManager(daoAuthenticationProvider);
+//    }
+
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService) throws Exception {
+    public AuthenticationManager authenticationManager(UserAuthService userAuthService) throws Exception {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setUserDetailsService(userAuthService);
         return new ProviderManager(daoAuthenticationProvider);
     }
 

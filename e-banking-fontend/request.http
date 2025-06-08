@@ -1,4 +1,18 @@
 
-GET http://localhost:8085/
+
+
+GET http://localhost:8085/accounts/902eb9cb-49e1-42ee-b4d3-658394dafa35/pageOperations
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4MjM3NSwiaWF0IjoxNzQ5MzgxNzc1LCJzY29wZSI6IkFETUlOIn0.MPvH-WFTX6_cSqqMvoo8whB9O8nZ6glfEwizLAiwpltIrKudggdYabMtLVDBQIz9gOhmGog1dTkoVnOQt4BBJw
 
 ###
+
+GET http://localhost:8085/customers
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0OTM4Mjc2OSwiaWF0IjoxNzQ5MzgyMTY5LCJzY29wZSI6IkFETUlOIFVTRVIifQ.2Dip-vMnmlMXGHVA78M5Eo4iS51_1bcrpO5nzMjEF0fCdHZAV5H7BQA5kNlYg0OyXIOPbHilUYb6dJftCWKjoA
+
+###
+
+POST http://localhost:8085/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=12345
